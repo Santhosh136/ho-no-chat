@@ -1,6 +1,7 @@
 import { type Admin } from "kafkajs";
 import { kakfaClient } from "./kafka.client";
 import logger from "../logger";
+import { TOPIC_NAME } from "../../features/chat/chat.constants";
 const admin: Admin = kakfaClient.admin();
 
 export const deleteTopic = async (topicName: string) => {
@@ -9,6 +10,7 @@ export const deleteTopic = async (topicName: string) => {
     await admin.deleteTopics({
       topics: [topicName]
     });
+    logger.info(`Topic ${TOPIC_NAME} deleted`);
     await admin.disconnect();
     return true;
   } catch (error) {
@@ -27,15 +29,6 @@ export const getAllTopics = async () => {
 export const createTopic = async (topicName: string) => {
   try {
     await admin.connect();
-
-    // const topics = await admin.listTopics();
-    // logger.info("Exsiting Topics :", topics);
-
-    // if (topics.includes(topicName)) {
-    //   await deleteTopic(topicName);
-    //   logger.info('Deleted existing topic');
-    // }
-
     const isTopicCreated = await admin.createTopics({
       topics: [
         { topic: topicName }
