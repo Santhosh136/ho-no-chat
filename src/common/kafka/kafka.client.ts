@@ -1,4 +1,4 @@
-import { Kafka, logLevel } from "kafkajs";
+import { Kafka } from "kafkajs";
 
 export const kakfaClient = new Kafka({
   clientId: 'my-app',
